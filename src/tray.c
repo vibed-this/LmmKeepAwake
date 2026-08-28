@@ -37,13 +37,9 @@ static HMENU create_context_menu(void)
     AppendMenuW(menu, MF_STRING, IDM_ABOUT, L"关于");
     AppendMenuW(menu, MF_STRING, IDM_EXIT, L"退出");
 
-    CheckMenuItem(
-        menu,
-        IDM_KEEP_AWAKE,
+    CheckMenuItem(menu, IDM_KEEP_AWAKE,
         MF_BYCOMMAND | (keep_awake ? MF_CHECKED : MF_UNCHECKED));
-    CheckMenuItem(
-        menu,
-        IDM_STARTUP,
+    CheckMenuItem(menu, IDM_STARTUP,
         MF_BYCOMMAND | (startup_is_enabled() ? MF_CHECKED : MF_UNCHECKED));
 
     return menu;
@@ -57,12 +53,16 @@ static void show_context_menu(HWND window)
     }
 
     POINT point;
-    GetCursorPos(&point);
+    if (!GetCursorPos(&point)) {
+        DestroyMenu(menu);
+        return;
+    }
+
     SetForegroundWindow(window);
 
     const UINT command = TrackPopupMenu(
         menu,
-        TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_NONOTIFY,
+        TPM_RIGHTBUTTON | TPM_RETURNCMD,
         point.x,
         point.y,
         0,
@@ -102,6 +102,17 @@ static void show_context_menu(HWND window)
     }
 }
 
+void tray_show_startup_notification(void)
+{
+    wcscpy_s(tray_icon.szInfoTitle, ARRAYSIZE(tray_icon.szInfoTitle), L"MiuKeepAwake");
+    wcscpy_s(tray_icon.szInfo, ARRAYSIZE(tray_icon.szInfo), L"屏幕常亮已开启");
+    tray_icon.dwInfoFlags = NIIF_INFO;
+    tray_icon.uFlags = NIF_INFO;
+    (void)Shell_NotifyIconW(NIM_MODIFY, &tray_icon);
+
+    tray_icon.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+}
+
 bool tray_initialize(HWND window, HINSTANCE instance, bool initial_keep_awake)
 {
     icon_on = LoadIconW(instance, MAKEINTRESOURCEW(IDI_APP_ON));
@@ -124,8 +135,7 @@ bool tray_initialize(HWND window, HINSTANCE instance, bool initial_keep_awake)
         return false;
     }
 
-    tray_icon.uVersion = NOTIFYICON_VERSION_4;
-    (void)Shell_NotifyIconW(NIM_SETVERSION, &tray_icon);
+    /* Keep the classic callback contract: lParam contains the mouse event. */
     return true;
 }
 
@@ -140,6 +150,15 @@ void tray_remove(void)
     if (tray_icon.hWnd != NULL) {
         Shell_NotifyIconW(NIM_DELETE, &tray_icon);
         ZeroMemory(&tray_icon, sizeof(tray_icon));
+    }
+
+    if (icon_on) {
+        DestroyIcon(icon_on);
+        icon_on = NULL;
+    }
+    if (icon_off) {
+        DestroyIcon(icon_off);
+        icon_off = NULL;
     }
 }
 

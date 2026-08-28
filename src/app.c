@@ -28,6 +28,8 @@ int app_run(HINSTANCE instance)
         return error != ERROR_SUCCESS ? (int)error : 1;
     }
 
+    tray_show_startup_notification();
+
     MSG message;
     int result = 0;
     while (GetMessageW(&message, NULL, 0, 0) > 0) {
