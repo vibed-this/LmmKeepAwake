@@ -1,0 +1,32 @@
+#include <windows.h>
+#include "resource.h"
+
+IDI_APP_ON ICON "light-on.ico"
+IDI_APP_OFF ICON "light-off.ico"
+
+1 VERSIONINFO
+FILEVERSION 0,1,0,0
+PRODUCTVERSION 0,1,0,0
+FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+FILEFLAGS 0
+FILEOS VOS_NT_WINDOWS32
+FILETYPE VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "MiuKeepAwake"
+            VALUE "FileDescription", "Windows keep-awake utility"
+            VALUE "FileVersion", "0.1.0.0"
+            VALUE "InternalName", "MiuKeepAwake.exe"
+            VALUE "OriginalFilename", "MiuKeepAwake.exe"
+            VALUE "ProductName", "MiuKeepAwake"
+            VALUE "ProductVersion", "0.1.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 1200
+    END
+END

@@ -1,0 +1,7 @@
+#ifndef MIU_KEEP_AWAKE_RESOURCE_H
+#define MIU_KEEP_AWAKE_RESOURCE_H
+
+#define IDI_APP_ON 101
+#define IDI_APP_OFF 102
+
+#endif
