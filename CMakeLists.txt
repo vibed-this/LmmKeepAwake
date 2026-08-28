@@ -30,4 +30,5 @@ endif()
 
 set_target_properties(MiuKeepAwake PROPERTIES
     OUTPUT_NAME "MiuKeepAwake"
+    LINK_FLAGS "/MANIFEST:NO"
 )

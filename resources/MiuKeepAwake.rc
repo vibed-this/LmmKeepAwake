@@ -1,6 +1,7 @@
 #include <windows.h>
 #include "resource.h"
 
+1 RT_MANIFEST "MiuKeepAwake.manifest"
 IDI_APP_ON ICON "light-on.ico"
 IDI_APP_OFF ICON "light-off.ico"
 
@@ -16,7 +17,7 @@ BEGIN
     BEGIN
         BLOCK "040904B0"
         BEGIN
-            VALUE "CompanyName", "MiuKeepAwake"
+            VALUE "CompanyName", "vibed-this"
             VALUE "FileDescription", "Windows keep-awake utility"
             VALUE "FileVersion", "0.1.0.0"
             VALUE "InternalName", "MiuKeepAwake.exe"
