@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  draft-release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure (Release)
+        run: cmake --preset windows-msvc-release
+
+      - name: Build (Release)
+        run: cmake --build --preset windows-msvc-release
+
+      - name: Package
+        shell: pwsh
+        run: |
+          $exe = "build/windows-msvc-release/Release/MiuKeepAwake.exe"
+          if (-not (Test-Path -LiteralPath $exe)) {
+            throw "Missing expected artifact: $exe"
+          }
+          New-Item -ItemType Directory -Path dist -Force | Out-Null
+          $tag = "${{ github.ref_name }}"
+          if ([string]::IsNullOrWhiteSpace($tag)) {
+            throw "github.ref_name is empty; cannot name the package."
+          }
+          $zip = "dist/MiuKeepAwake-$tag-x64.zip"
+          Compress-Archive -LiteralPath $exe -DestinationPath $zip -Force
+          (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash | Out-File -FilePath "$zip.sha256" -NoNewline
+          Get-ChildItem dist | Format-Table Name, Length
+
+      - name: Upload artifact (manual run)
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: MiuKeepAwake-${{ github.ref_name }}-x64
+          path: dist/
+
+      - name: Create draft release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          generate_release_notes: true
+          files: |
+            dist/*.zip
+            dist/*.sha256

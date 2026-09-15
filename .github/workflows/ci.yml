@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show toolchain versions
+        run: |
+          cmake --version
+          ctest --version
+
+      - name: Configure (Debug)
+        run: cmake --preset windows-msvc-debug
+
+      - name: Build (Debug)
+        run: cmake --build --preset windows-msvc-debug
+
+      - name: Configure (Release)
+        run: cmake --preset windows-msvc-release
+
+      - name: Build (Release)
+        run: cmake --build --preset windows-msvc-release
+
+      - name: Verify artifacts
+        shell: pwsh
+        run: |
+          $exes = @(
+            "build/windows-msvc-debug/Debug/MiuKeepAwake.exe",
+            "build/windows-msvc-release/Release/MiuKeepAwake.exe"
+          )
+          foreach ($exe in $exes) {
+            if (-not (Test-Path -LiteralPath $exe)) {
+              throw "Missing expected artifact: $exe"
+            }
+            Get-Item -LiteralPath $exe | Format-Table Name, Length, LastWriteTime
+          }
