@@ -12,6 +12,9 @@
 #define IDM_STARTUP 1002
 #define IDM_ABOUT 1003
 #define IDM_EXIT 1004
+#define IDM_WEBSITE 1005
+
+static const wchar_t WEBSITE_URL[] = L"https://github.com/vibed-this/LmmKeepAwake";
 
 static NOTIFYICONDATAW tray_icon;
 static HICON icon_on;
@@ -37,11 +40,13 @@ static HMENU create_context_menu(void)
     wchar_t keep_awake_text[128];
     wchar_t startup_text[128];
     wchar_t about_text[128];
+    wchar_t website_text[128];
     wchar_t exit_text[128];
 
     load_string(IDS_KEEP_AWAKE, keep_awake_text, ARRAYSIZE(keep_awake_text));
     load_string(IDS_STARTUP, startup_text, ARRAYSIZE(startup_text));
     load_string(IDS_ABOUT, about_text, ARRAYSIZE(about_text));
+    load_string(IDS_WEBSITE, website_text, ARRAYSIZE(website_text));
     load_string(IDS_EXIT, exit_text, ARRAYSIZE(exit_text));
 
     HMENU menu = CreatePopupMenu();
@@ -53,6 +58,7 @@ static HMENU create_context_menu(void)
     AppendMenuW(menu, MF_STRING, IDM_STARTUP, startup_text);
     AppendMenuW(menu, MF_SEPARATOR, 0, NULL);
     AppendMenuW(menu, MF_STRING, IDM_ABOUT, about_text);
+    AppendMenuW(menu, MF_STRING, IDM_WEBSITE, website_text);
     AppendMenuW(menu, MF_STRING, IDM_EXIT, exit_text);
 
     CheckMenuItem(menu, IDM_KEEP_AWAKE,
@@ -109,6 +115,15 @@ static void show_context_menu(HWND window)
         load_string(IDS_ABOUT_TITLE, title, ARRAYSIZE(title));
         load_string(IDS_ABOUT_TEXT, text, ARRAYSIZE(text));
         MessageBoxW(window, text, title, MB_OK | MB_ICONINFORMATION);
+        break;
+    }
+
+    case IDM_WEBSITE: {
+        const HINSTANCE exec_result = ShellExecuteW(
+            window, L"open", WEBSITE_URL, NULL, NULL, SW_SHOWNORMAL);
+        if ((INT_PTR)exec_result <= 32) {
+            SetLastError((DWORD)(INT_PTR)exec_result);
+        }
         break;
     }
 
