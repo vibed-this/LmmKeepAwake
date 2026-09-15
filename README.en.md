@@ -1,4 +1,4 @@
-# MiuKeepAwake
+# LmmKeepAwake
 
 [中文](./README.md)
 
@@ -18,7 +18,7 @@ A small native Windows utility that prevents the display from turning off and th
 
 ## Usage
 
-1. Run `MiuKeepAwake.exe`. A bulb icon in the tray means it is running (keep-awake is on by default).
+1. Run `LmmKeepAwake.exe`. A bulb icon in the tray means it is running (keep-awake is on by default).
 2. To allow the screen to sleep temporarily, left-click the icon or uncheck "Keep screen awake" in the context menu.
 3. To launch at startup, check "Start with Windows" in the context menu. No administrator privileges required.
 4. Always quit via `Exit` in the context menu rather than killing the process, so the tray icon and power request are cleaned up correctly.
@@ -31,7 +31,7 @@ Startup registration uses the current user's registry key, so no elevation is ne
 HKCU\Software\Microsoft\Windows\CurrentVersion\Run
 ```
 
-The value name is `MiuKeepAwake` and the value is the quoted full path of the executable. Unchecking the option deletes the value (treating "not present" as success).
+The value name is `LmmKeepAwake` and the value is the quoted full path of the executable. Unchecking the option deletes the value (treating "not present" as success).
 
 ## How It Works
 
@@ -76,8 +76,8 @@ cmake --build --preset windows-msvc-release
 Output binaries:
 
 ```text
-build/windows-msvc-debug/Debug/MiuKeepAwake.exe
-build/windows-msvc-release/Release/MiuKeepAwake.exe
+build/windows-msvc-debug/Debug/LmmKeepAwake.exe
+build/windows-msvc-release/Release/LmmKeepAwake.exe
 ```
 
 ### Installer (Inno Setup)
@@ -99,12 +99,12 @@ cmake --build --preset windows-msvc-release --target installer
 Output:
 
 ```text
-dist/MiuKeepAwake-<version>-x64-Setup.exe (+ .sha256)
+dist/LmmKeepAwake-<version>-x64-Setup.exe (+ .sha256)
 ```
 
 Installer behavior:
 
-- Per-user install (`PrivilegesRequired=lowest`), no admin rights needed; defaults to `%LOCALAPPDATA%\Programs\MiuKeepAwake`.
+- Per-user install (`PrivilegesRequired=lowest`), no admin rights needed; defaults to `%LOCALAPPDATA%\Programs\LmmKeepAwake`.
 - 64-bit Windows only.
 - Optional tasks: start with Windows (writes `HKCU\...\Run`, kept in sync with the tray menu checkmark) and a desktop icon.
 - A running instance is terminated before install/uninstall; uninstall removes the startup entry and shortcuts.
@@ -123,24 +123,24 @@ The program uses a hidden message-only window to receive tray notifications, so 
 ## Tray Icons and Localization
 
 - The icon design follows the visual language of the Icons8 Windows 11 Color style Light On / Light Off icons, redrawn for Windows notification-area sizes (16×16 / 32×32). See [`resources/icon-source.md`](resources/icon-source.md) for the reference.
-- UI strings live in the English (`LANG_ENGLISH`) and Simplified Chinese (`LANG_CHINESE`) `STRINGTABLE`s in `resources/MiuKeepAwake.rc`.
+- UI strings live in the English (`LANG_ENGLISH`) and Simplified Chinese (`LANG_CHINESE`) `STRINGTABLE`s in `resources/LmmKeepAwake.rc`.
 
 ## Project Layout
 
 ```text
-MiuKeepAwake/
+LmmKeepAwake/
 ├── CMakeLists.txt
 ├── CMakePresets.json
 ├── AGENTS.md
 ├── README.md
 ├── README.en.md
 ├── installer/
-│   ├── MiuKeepAwake.iss
+│   ├── LmmKeepAwake.iss
 │   ├── build-installer.ps1
 │   └── languages/
 │       └── ChineseSimplified.isl
 ├── include/
-│   └── miu_keep_awake/
+│   └── lmm_keep_awake/
 │       ├── app.h
 │       ├── power.h
 │       ├── startup.h
@@ -154,8 +154,8 @@ MiuKeepAwake/
 │   ├── tray.c
 │   └── window.c
 └── resources/
-    ├── MiuKeepAwake.rc
-    ├── MiuKeepAwake.manifest
+    ├── LmmKeepAwake.rc
+    ├── LmmKeepAwake.manifest
     ├── resource.h
     ├── light-on.ico
     ├── light-off.ico
@@ -163,3 +163,4 @@ MiuKeepAwake/
     ├── light-off.svg
     └── icon-source.md
 ```
+

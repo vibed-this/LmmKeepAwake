@@ -1,10 +1,10 @@
-#include "miu_keep_awake/tray.h"
+#include "lmm_keep_awake/tray.h"
 
 #include <shellapi.h>
 #include <windows.h>
 
-#include "miu_keep_awake/power.h"
-#include "miu_keep_awake/startup.h"
+#include "lmm_keep_awake/power.h"
+#include "lmm_keep_awake/startup.h"
 #include "resource.h"
 
 #define WM_APP_TRAY (WM_APP + 1)

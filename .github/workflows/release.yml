@@ -27,7 +27,7 @@ jobs:
       - name: Package
         shell: pwsh
         run: |
-          $exe = "build/windows-msvc-release/Release/MiuKeepAwake.exe"
+          $exe = "build/windows-msvc-release/Release/LmmKeepAwake.exe"
           if (-not (Test-Path -LiteralPath $exe)) {
             throw "Missing expected artifact: $exe"
           }
@@ -36,7 +36,7 @@ jobs:
           if ([string]::IsNullOrWhiteSpace($tag)) {
             throw "github.ref_name is empty; cannot name the package."
           }
-          $zip = "dist/MiuKeepAwake-$tag-x64.zip"
+          $zip = "dist/LmmKeepAwake-$tag-x64.zip"
           Compress-Archive -LiteralPath $exe -DestinationPath $zip -Force
           (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash | Out-File -FilePath "$zip.sha256" -NoNewline -Encoding ascii
           Get-ChildItem dist | Format-Table Name, Length
@@ -59,7 +59,7 @@ jobs:
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         uses: actions/upload-artifact@v4
         with:
-          name: MiuKeepAwake-${{ github.ref_name }}-x64
+          name: LmmKeepAwake-${{ github.ref_name }}-x64
           path: dist/
 
       - name: Create draft release
@@ -72,3 +72,4 @@ jobs:
             dist/*.zip
             dist/*-Setup.exe
             dist/*.sha256
+

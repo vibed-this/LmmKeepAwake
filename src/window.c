@@ -1,10 +1,10 @@
-#include "miu_keep_awake/window.h"
+#include "lmm_keep_awake/window.h"
 
 #include <windows.h>
 
-#include "miu_keep_awake/tray.h"
+#include "lmm_keep_awake/tray.h"
 
-static const wchar_t WINDOW_CLASS_NAME[] = L"MiuKeepAwakeMessageWindow";
+static const wchar_t WINDOW_CLASS_NAME[] = L"LmmKeepAwakeMessageWindow";
 
 static LRESULT CALLBACK window_proc(
     HWND window,
@@ -44,7 +44,7 @@ HWND app_window_create(HINSTANCE instance)
     return CreateWindowExW(
         0,
         WINDOW_CLASS_NAME,
-        L"MiuKeepAwake",
+        L"LmmKeepAwake",
         0,
         0,
         0,
@@ -55,3 +55,4 @@ HWND app_window_create(HINSTANCE instance)
         instance,
         NULL);
 }
+

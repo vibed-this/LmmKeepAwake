@@ -1,6 +1,6 @@
 #include <windows.h>
 
-#include "miu_keep_awake/app.h"
+#include "lmm_keep_awake/app.h"
 
 int WINAPI wWinMain(
     HINSTANCE instance,

@@ -2,7 +2,7 @@
 
 ## Project
 
-MiuKeepAwake is a Windows-only native desktop utility written in C17.
+LmmKeepAwake is a Windows-only native desktop utility written in C17.
 
 ## Toolchain
 
@@ -91,9 +91,10 @@ Warnings should be treated seriously. Do not hide warnings merely to make a buil
 
 ## Packaging
 
-The Inno Setup installer (`installer/MiuKeepAwake.iss`) is per-user (`PrivilegesRequired=lowest`, x64 only) to match the no-admin HKCU startup toggle. Version source of truth: `project VERSION` in `CMakeLists.txt`, passed as `/DMyAppVersion` (local fallback: the Release exe's VERSIONINFO).
+The Inno Setup installer (`installer/LmmKeepAwake.iss`) is per-user (`PrivilegesRequired=lowest`, x64 only) to match the no-admin HKCU startup toggle. Version source of truth: `project VERSION` in `CMakeLists.txt`, passed as `/DMyAppVersion` (local fallback: the Release exe's VERSIONINFO).
 
 ```powershell
 powershell -File installer/build-installer.ps1
 # or: cmake --build --preset windows-msvc-release --target installer
 ```
+

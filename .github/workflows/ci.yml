@@ -36,8 +36,8 @@ jobs:
         shell: pwsh
         run: |
           $exes = @(
-            "build/windows-msvc-debug/Debug/MiuKeepAwake.exe",
-            "build/windows-msvc-release/Release/MiuKeepAwake.exe"
+            "build/windows-msvc-debug/Debug/LmmKeepAwake.exe",
+            "build/windows-msvc-release/Release/LmmKeepAwake.exe"
           )
           foreach ($exe in $exes) {
             if (-not (Test-Path -LiteralPath $exe)) {
@@ -53,8 +53,9 @@ jobs:
         shell: pwsh
         run: |
           ./installer/build-installer.ps1
-          $setup = Get-ChildItem dist/MiuKeepAwake-*-Setup.exe
+          $setup = Get-ChildItem dist/LmmKeepAwake-*-Setup.exe
           if ($null -eq $setup) {
-            throw "Missing expected artifact: dist/MiuKeepAwake-*-Setup.exe"
+            throw "Missing expected artifact: dist/LmmKeepAwake-*-Setup.exe"
           }
           $setup | Format-Table Name, Length, LastWriteTime
+

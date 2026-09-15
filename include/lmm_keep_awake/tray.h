@@ -1,5 +1,5 @@
-#ifndef MIU_KEEP_AWAKE_TRAY_H
-#define MIU_KEEP_AWAKE_TRAY_H
+#ifndef lmm_keep_awake_TRAY_H
+#define lmm_keep_awake_TRAY_H
 
 #include <stdbool.h>
 #include <windows.h>
@@ -11,3 +11,4 @@ void tray_remove(void);
 LRESULT tray_handle_message(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
 
 #endif
+

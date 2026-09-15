@@ -1,4 +1,4 @@
-# MiuKeepAwake
+# LmmKeepAwake
 
 [English](./README.en.md)
 
@@ -18,7 +18,7 @@
 
 ## 使用方法
 
-1. 运行 `MiuKeepAwake.exe`，托盘区出现灯泡图标即表示已启动（默认常亮开启）。
+1. 运行 `LmmKeepAwake.exe`，托盘区出现灯泡图标即表示已启动（默认常亮开启）。
 2. 需要临时允许息屏时，左键单击图标或在右键菜单中取消勾选「屏幕常亮」。
 3. 需要开机自启时，在右键菜单中勾选「开机启动」，无需管理员权限。
 4. 退出请使用右键菜单中的「退出」，不要直接结束进程，以确保正确清理托盘图标和电源请求。
@@ -31,7 +31,7 @@
 HKCU\Software\Microsoft\Windows\CurrentVersion\Run
 ```
 
-键名为 `MiuKeepAwake`，值为带引号的程序完整路径。取消勾选即删除该键值（若本来就不存在则视为成功）。
+键名为 `LmmKeepAwake`，值为带引号的程序完整路径。取消勾选即删除该键值（若本来就不存在则视为成功）。
 
 ## 实现原理
 
@@ -76,8 +76,8 @@ cmake --build --preset windows-msvc-release
 输出位置：
 
 ```text
-build/windows-msvc-debug/Debug/MiuKeepAwake.exe
-build/windows-msvc-release/Release/MiuKeepAwake.exe
+build/windows-msvc-debug/Debug/LmmKeepAwake.exe
+build/windows-msvc-release/Release/LmmKeepAwake.exe
 ```
 
 ### 安装包（Inno Setup）
@@ -99,12 +99,12 @@ cmake --build --preset windows-msvc-release --target installer
 输出位置：
 
 ```text
-dist/MiuKeepAwake-<version>-x64-Setup.exe (+ .sha256)
+dist/LmmKeepAwake-<version>-x64-Setup.exe (+ .sha256)
 ```
 
 安装包行为：
 
-- 按用户安装（`PrivilegesRequired=lowest`），无需管理员权限；默认安装到 `%LOCALAPPDATA%\Programs\MiuKeepAwake`。
+- 按用户安装（`PrivilegesRequired=lowest`），无需管理员权限；默认安装到 `%LOCALAPPDATA%\Programs\LmmKeepAwake`。
 - 仅支持 64 位 Windows。
 - 可选任务：开机启动（写入 `HKCU\...\Run`，与托盘菜单的勾选状态保持同步）、桌面图标。
 - 安装 / 卸载前自动结束正在运行的实例；卸载时删除开机启动项与快捷方式。
@@ -123,24 +123,24 @@ dist/MiuKeepAwake-<version>-x64-Setup.exe (+ .sha256)
 ## 托盘图标与本地化
 
 - 图标的视觉方向参考了 Icons8 的 Windows 11 Color 风格 Light On / Light Off 图标，并针对 Windows notification area 的 16×16 / 32×32 尺寸重新绘制，参考来源见 [`resources/icon-source.md`](resources/icon-source.md)。
-- 界面字符串存放在 `resources/MiuKeepAwake.rc` 的英文（`LANG_ENGLISH`）和简体中文（`LANG_CHINESE`）两个 `STRINGTABLE` 中。
+- 界面字符串存放在 `resources/LmmKeepAwake.rc` 的英文（`LANG_ENGLISH`）和简体中文（`LANG_CHINESE`）两个 `STRINGTABLE` 中。
 
 ## 项目结构
 
 ```text
-MiuKeepAwake/
+LmmKeepAwake/
 ├── CMakeLists.txt
 ├── CMakePresets.json
 ├── AGENTS.md
 ├── README.md
 ├── README.en.md
 ├── installer/
-│   ├── MiuKeepAwake.iss
+│   ├── LmmKeepAwake.iss
 │   ├── build-installer.ps1
 │   └── languages/
 │       └── ChineseSimplified.isl
 ├── include/
-│   └── miu_keep_awake/
+│   └── lmm_keep_awake/
 │       ├── app.h
 │       ├── power.h
 │       ├── startup.h
@@ -154,8 +154,8 @@ MiuKeepAwake/
 │   ├── tray.c
 │   └── window.c
 └── resources/
-    ├── MiuKeepAwake.rc
-    ├── MiuKeepAwake.manifest
+    ├── LmmKeepAwake.rc
+    ├── LmmKeepAwake.manifest
     ├── resource.h
     ├── light-on.ico
     ├── light-off.ico
@@ -163,3 +163,4 @@ MiuKeepAwake/
     ├── light-off.svg
     └── icon-source.md
 ```
+

@@ -1,11 +1,11 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    Build the MiuKeepAwake Inno Setup installer (x64, per-user).
+    Build the LmmKeepAwake Inno Setup installer (x64, per-user).
 
 .DESCRIPTION
     Expects the Release exe to already exist. Compiles
-    installer/MiuKeepAwake.iss with ISCC.exe and writes a SHA256 file
+    installer/LmmKeepAwake.iss with ISCC.exe and writes a SHA256 file
     next to the Setup exe in dist/.
 
 .EXAMPLE
@@ -23,8 +23,8 @@ param(
 $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$iss = Join-Path $PSScriptRoot "MiuKeepAwake.iss"
-$exe = Join-Path $repoRoot "build/windows-msvc-release/Release/MiuKeepAwake.exe"
+$iss = Join-Path $PSScriptRoot "LmmKeepAwake.iss"
+$exe = Join-Path $repoRoot "build/windows-msvc-release/Release/LmmKeepAwake.exe"
 $distDir = Join-Path $repoRoot "dist"
 
 if (-not (Test-Path -LiteralPath $iss)) {
@@ -69,10 +69,11 @@ if ($LASTEXITCODE -ne 0) {
     throw "ISCC.exe failed with exit code $LASTEXITCODE."
 }
 
-$setup = Get-ChildItem -Path $distDir -Filter "MiuKeepAwake-*-Setup.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$setup = Get-ChildItem -Path $distDir -Filter "LmmKeepAwake-*-Setup.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 if ($null -eq $setup) {
-    throw "ISCC succeeded but no MiuKeepAwake-*-Setup.exe was found in $distDir."
+    throw "ISCC succeeded but no LmmKeepAwake-*-Setup.exe was found in $distDir."
 }
 (Get-FileHash -LiteralPath $setup.FullName -Algorithm SHA256).Hash | Out-File -FilePath "$($setup.FullName).sha256" -NoNewline -Encoding ascii
 Write-Host "Installer: $($setup.FullName)"
 Write-Host "SHA256   : $($setup.FullName).sha256"
+

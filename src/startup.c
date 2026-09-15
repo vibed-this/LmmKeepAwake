@@ -1,11 +1,11 @@
-#include "miu_keep_awake/startup.h"
+#include "lmm_keep_awake/startup.h"
 
 #include <stdio.h>
 #include <wchar.h>
 #include <windows.h>
 
 static const wchar_t RUN_KEY[] = L"Software\\Microsoft\\Windows\\CurrentVersion\\Run";
-static const wchar_t VALUE_NAME[] = L"MiuKeepAwake";
+static const wchar_t VALUE_NAME[] = L"LmmKeepAwake";
 
 bool startup_is_enabled(void)
 {
@@ -82,3 +82,4 @@ bool startup_set_enabled(bool enabled)
     RegCloseKey(key);
     return result == ERROR_SUCCESS;
 }
+

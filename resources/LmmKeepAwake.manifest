@@ -2,11 +2,11 @@
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
   <assemblyIdentity
     type="win32"
-    name="vibed-this.MiuKeepAwake"
+    name="vibed-this.LmmKeepAwake"
     version="0.1.0.0"
     processorArchitecture="*" />
 
-  <description>MiuKeepAwake</description>
+  <description>LmmKeepAwake</description>
 
   <dependency>
     <dependentAssembly>
@@ -48,3 +48,4 @@
     </windowsSettings>
   </application>
 </assembly>
+

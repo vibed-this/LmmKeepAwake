@@ -1,4 +1,4 @@
-#include "miu_keep_awake/power.h"
+#include "lmm_keep_awake/power.h"
 
 #include <windows.h>
 
@@ -11,3 +11,4 @@ bool power_set_keep_awake(bool enabled)
 
     return SetThreadExecutionState(ES_CONTINUOUS) != 0;
 }
+

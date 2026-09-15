@@ -1,4 +1,4 @@
-﻿; MiuKeepAwake Inno Setup script (requires Inno Setup 6, Unicode).
+; LmmKeepAwake Inno Setup script (requires Inno Setup 6, Unicode).
 ;
 ; Build the Release exe first, then compile this script:
 ;
@@ -15,15 +15,15 @@
 ;   - local builds without that define fall back to the VERSIONINFO
 ;     embedded in the Release exe, so the installer never carries a
 ;     stale hardcoded version.
-; Keep CMakeLists.txt (project VERSION), resources/MiuKeepAwake.rc
-; (VERSIONINFO), resources/MiuKeepAwake.manifest and this script in sync.
+; Keep CMakeLists.txt (project VERSION), resources/LmmKeepAwake.rc
+; (VERSIONINFO), resources/LmmKeepAwake.manifest and this script in sync.
 
-#define MyAppName "MiuKeepAwake"
-#define MyAppExeName "MiuKeepAwake.exe"
+#define MyAppName "LmmKeepAwake"
+#define MyAppExeName "LmmKeepAwake.exe"
 #define MyAppPublisher "vibed-this"
 #define MyAppURL "https://github.com/vibed-this/LmmKeepAwake"
 #define RepoRoot SourcePath + "/.."
-#define MySourceExe RepoRoot + "/build/windows-msvc-release/Release/MiuKeepAwake.exe"
+#define MySourceExe RepoRoot + "/build/windows-msvc-release/Release/LmmKeepAwake.exe"
 #ifndef MyAppVersion
   #define MyAppVersion GetVersionNumbersString(MySourceExe)
 #endif
@@ -56,7 +56,7 @@ RestartApplications=no
 UninstallDisplayIcon={app}\{#MyAppExeName}
 SetupIconFile={#RepoRoot}/resources/light-on.ico
 OutputDir={#RepoRoot}/dist
-OutputBaseFilename=MiuKeepAwake-{#MyAppVersion}-x64-Setup
+OutputBaseFilename=LmmKeepAwake-{#MyAppVersion}-x64-Setup
 VersionInfoVersion={#MyAppVersion}
 VersionInfoProductName={#MyAppName}
 VersionInfoDescription={#MyAppName} Setup
@@ -73,11 +73,11 @@ Name: "chinesesimplified"; MessagesFile: "{#RepoRoot}/installer/languages/Chines
 
 [CustomMessages]
 english.StartupTask=Start with Windows
-english.StartupTaskTip=Launch MiuKeepAwake automatically when you sign in (current user only, no admin rights needed)
+english.StartupTaskTip=Launch LmmKeepAwake automatically when you sign in (current user only, no admin rights needed)
 english.DesktopIconTask=Create a &desktop icon
 english.LaunchProgram=Launch {#MyAppName}
 chinesesimplified.StartupTask=开机启动
-chinesesimplified.StartupTaskTip=登录后自动启动 MiuKeepAwake（仅当前用户，无需管理员权限）
+chinesesimplified.StartupTaskTip=登录后自动启动 LmmKeepAwake（仅当前用户，无需管理员权限）
 chinesesimplified.DesktopIconTask=创建桌面图标(&D)
 chinesesimplified.LaunchProgram=启动 {#MyAppName}
 
@@ -91,7 +91,7 @@ Source: "{#MySourceExe}"; DestDir: "{app}"; Flags: ignoreversion
 [Registry]
 ; Same HKCU Run value the app itself manages, so the tray menu checkmark
 ; stays in sync. uninsdeletevalue removes it on uninstall.
-Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "MiuKeepAwake"; ValueData: """{app}\{#MyAppExeName}"""; Tasks: startup; Flags: uninsdeletevalue
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "LmmKeepAwake"; ValueData: """{app}\{#MyAppExeName}"""; Tasks: startup; Flags: uninsdeletevalue
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -124,3 +124,4 @@ begin
   if CurUninstallStep = usUninstall then
     KillRunningApp();
 end;
+
