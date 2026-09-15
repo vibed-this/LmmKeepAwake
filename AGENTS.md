@@ -88,3 +88,12 @@ cmake --build --preset windows-msvc-debug
 ```
 
 Warnings should be treated seriously. Do not hide warnings merely to make a build pass.
+
+## Packaging
+
+The Inno Setup installer (`installer/MiuKeepAwake.iss`) is per-user (`PrivilegesRequired=lowest`, x64 only) to match the no-admin HKCU startup toggle. Version source of truth: `project VERSION` in `CMakeLists.txt`, passed as `/DMyAppVersion` (local fallback: the Release exe's VERSIONINFO).
+
+```powershell
+powershell -File installer/build-installer.ps1
+# or: cmake --build --preset windows-msvc-release --target installer
+```

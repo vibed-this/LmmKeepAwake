@@ -45,3 +45,16 @@ jobs:
             }
             Get-Item -LiteralPath $exe | Format-Table Name, Length, LastWriteTime
           }
+
+      - name: Install Inno Setup
+        run: choco install innosetup -y --no-progress
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          ./installer/build-installer.ps1
+          $setup = Get-ChildItem dist/MiuKeepAwake-*-Setup.exe
+          if ($null -eq $setup) {
+            throw "Missing expected artifact: dist/MiuKeepAwake-*-Setup.exe"
+          }
+          $setup | Format-Table Name, Length, LastWriteTime

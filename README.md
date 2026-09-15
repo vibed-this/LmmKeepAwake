@@ -80,6 +80,36 @@ build/windows-msvc-debug/Debug/MiuKeepAwake.exe
 build/windows-msvc-release/Release/MiuKeepAwake.exe
 ```
 
+### 安装包（Inno Setup）
+
+前置要求：[Inno Setup 6](https://jrsoftware.org/isinfo.php)。
+
+```powershell
+cmake --preset windows-msvc-release
+cmake --build --preset windows-msvc-release
+powershell -File installer/build-installer.ps1
+```
+
+或使用 CMake 的 `installer` 目标（需要找到 ISCC，版本号取自 `project VERSION`）：
+
+```powershell
+cmake --build --preset windows-msvc-release --target installer
+```
+
+输出位置：
+
+```text
+dist/MiuKeepAwake-<version>-x64-Setup.exe (+ .sha256)
+```
+
+安装包行为：
+
+- 按用户安装（`PrivilegesRequired=lowest`），无需管理员权限；默认安装到 `%LOCALAPPDATA%\Programs\MiuKeepAwake`。
+- 仅支持 64 位 Windows。
+- 可选任务：开机启动（写入 `HKCU\...\Run`，与托盘菜单的勾选状态保持同步）、桌面图标。
+- 安装 / 卸载前自动结束正在运行的实例；卸载时删除开机启动项与快捷方式。
+- 安装向导支持英文 / 简体中文（`installer/languages/ChineseSimplified.isl` 是官方翻译的 vendored 副本，构建不依赖本机 Inno 附带的翻译文件）。
+
 ## 技术栈
 
 - C17（`CMAKE_C_EXTENSIONS OFF`）
@@ -104,6 +134,11 @@ MiuKeepAwake/
 ├── AGENTS.md
 ├── README.md
 ├── README.en.md
+├── installer/
+│   ├── MiuKeepAwake.iss
+│   ├── build-installer.ps1
+│   └── languages/
+│       └── ChineseSimplified.isl
 ├── include/
 │   └── miu_keep_awake/
 │       ├── app.h

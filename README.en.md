@@ -80,6 +80,36 @@ build/windows-msvc-debug/Debug/MiuKeepAwake.exe
 build/windows-msvc-release/Release/MiuKeepAwake.exe
 ```
 
+### Installer (Inno Setup)
+
+Prerequisite: [Inno Setup 6](https://jrsoftware.org/isinfo.php).
+
+```powershell
+cmake --preset windows-msvc-release
+cmake --build --preset windows-msvc-release
+powershell -File installer/build-installer.ps1
+```
+
+Or use the CMake `installer` target (needs ISCC; the version comes from `project VERSION`):
+
+```powershell
+cmake --build --preset windows-msvc-release --target installer
+```
+
+Output:
+
+```text
+dist/MiuKeepAwake-<version>-x64-Setup.exe (+ .sha256)
+```
+
+Installer behavior:
+
+- Per-user install (`PrivilegesRequired=lowest`), no admin rights needed; defaults to `%LOCALAPPDATA%\Programs\MiuKeepAwake`.
+- 64-bit Windows only.
+- Optional tasks: start with Windows (writes `HKCU\...\Run`, kept in sync with the tray menu checkmark) and a desktop icon.
+- A running instance is terminated before install/uninstall; uninstall removes the startup entry and shortcuts.
+- The setup wizard supports English / Simplified Chinese (`installer/languages/ChineseSimplified.isl` is a vendored copy of the official translation, so builds never depend on which translations the local Inno Setup happens to ship).
+
 ## Tech Stack
 
 - C17 (`CMAKE_C_EXTENSIONS OFF`)
@@ -104,6 +134,11 @@ MiuKeepAwake/
 ├── AGENTS.md
 ├── README.md
 ├── README.en.md
+├── installer/
+│   ├── MiuKeepAwake.iss
+│   ├── build-installer.ps1
+│   └── languages/
+│       └── ChineseSimplified.isl
 ├── include/
 │   └── miu_keep_awake/
 │       ├── app.h

@@ -38,8 +38,22 @@ jobs:
           }
           $zip = "dist/MiuKeepAwake-$tag-x64.zip"
           Compress-Archive -LiteralPath $exe -DestinationPath $zip -Force
-          (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash | Out-File -FilePath "$zip.sha256" -NoNewline
+          (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash | Out-File -FilePath "$zip.sha256" -NoNewline -Encoding ascii
           Get-ChildItem dist | Format-Table Name, Length
+
+      - name: Install Inno Setup
+        run: choco install innosetup -y --no-progress
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          if ($tag -match "^v") {
+            ./installer/build-installer.ps1 -Version ($tag -replace "^v", "")
+          } else {
+            # Manual run from a branch: fall back to the exe's VERSIONINFO.
+            ./installer/build-installer.ps1
+          }
 
       - name: Upload artifact (manual run)
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
@@ -56,4 +70,5 @@ jobs:
           generate_release_notes: true
           files: |
             dist/*.zip
+            dist/*-Setup.exe
             dist/*.sha256

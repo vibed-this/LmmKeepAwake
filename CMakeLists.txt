@@ -32,3 +32,24 @@ set_target_properties(MiuKeepAwake PROPERTIES
     OUTPUT_NAME "MiuKeepAwake"
     LINK_FLAGS "/MANIFEST:NO"
 )
+
+install(TARGETS MiuKeepAwake DESTINATION ".")
+
+# Optional Inno Setup installer target (needs ISCC from Inno Setup 6).
+# The project version is passed explicitly so the installer never
+# carries a stale hardcoded version.
+# "ProgramFiles(x86)" cannot be named in an $ENV{...} reference
+# (parentheses are not valid in a CMake variable name),
+# so probe the default install locations literally.
+# Override with -DMIU_INNO_ISCC=<path-to-ISCC.exe> when needed.
+find_program(MIU_INNO_ISCC NAMES ISCC
+    PATHS "C:/Program Files (x86)/Inno Setup 6" "C:/Program Files/Inno Setup 6" "$ENV{LOCALAPPDATA}/Programs/Inno Setup 6")
+if(MIU_INNO_ISCC)
+    add_custom_target(installer
+        COMMAND "${MIU_INNO_ISCC}" "/DMyAppVersion=${PROJECT_VERSION}" "${CMAKE_CURRENT_SOURCE_DIR}/installer/MiuKeepAwake.iss"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        COMMENT "Building Inno Setup installer with ${MIU_INNO_ISCC}"
+        VERBATIM)
+else()
+    message(STATUS "ISCC not found: 'installer' target unavailable (install Inno Setup 6 to enable it)")
+endif()
